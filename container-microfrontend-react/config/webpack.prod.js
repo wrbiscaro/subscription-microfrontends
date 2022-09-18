@@ -8,7 +8,8 @@ const domain = process.env.PRODUCTION_DOMAIN;
 const prodConfig = {
     mode: 'production', //Com o modo production, o webpack faz algumas otimizações (minificacao, por exemplo)
     output: {
-        filename: '[name].[contenthash].js' //Todos os arquivos terão o seu nome + hash para evitar problemas de cache
+        filename: '[name].[contenthash].js', //Todos os arquivos terão o seu nome + hash para evitar problemas de cache
+        publicPath: '/container-microfrontend-react/latest/' //Diretorio do bucket s3 de onde o cloudffront vai carregar arquivos públicos (js, css, etc)
     },
     plugins: [
         new ModuleFederationPlugin({
