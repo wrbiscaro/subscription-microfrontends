@@ -1,10 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createMemoryHistory } from 'history';
 import App from './App';
 
-const mount = (element) => {
+const mount = (element, { onNavigate }) => {
+    //Cria um component de MemoryHistory e envia via prop ao App
+    const history = createMemoryHistory();
+    //Chama a funcao de callback do container para informa-lo que teve um routing e ele atualizar o path no BrowserHistory
+    history.listen(onNavigate);
+
     //Renderiza nosso component App em um elemento a ser recebido com o ReactDOM
-    ReactDOM.render(<App />, element);
+    ReactDOM.render(<App history={history} />, element);
 };
 
 //Webpack seta o NODE_ENV com o que está no mode do webpack.config.js

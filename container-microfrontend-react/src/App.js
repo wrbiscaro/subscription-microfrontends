@@ -1,5 +1,7 @@
 import React from 'react';
+//Componente para fazer o Router utilizando Browser History
 import { BrowserRouter } from 'react-router-dom';
+//Componentes para fazer o CSS-in-JS e evitar conflitos de CSS
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
 
 import MarketingApp from './components/MarketingApp';
