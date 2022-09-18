@@ -18,9 +18,9 @@ export default ({ history }) => {
         <div>
             <StylesProvider generateClassName={generateClassName}>
                 <Router history={history}>
-                    <Switch>                    
+                    <Switch>
+                        <Route exact path="/pricing" component={Pricing}></Route>                    
                         <Route path="/" component={Landing}></Route>
-                        <Route exact path="/pricing" component={Pricing}></Route>
                     </Switch>
                 </Router>
             </StylesProvider>
