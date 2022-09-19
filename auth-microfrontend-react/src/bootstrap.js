@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import { createMemoryHistory, createBrowserHistory } from 'history';
 import App from './App';
 
-const mount = (element, { onNavigate, defaultHistory }) => {
+const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
     //Cria um component de MemoryHistory (prod) ou BrowserHistory (dev/isolado) e envia via prop ao App
     //Apenas ambiente development envia o defaultHistory. Se nao enviar (prod), usa MemoryHistory
-    const history = defaultHistory || createMemoryHistory();
+    const history = defaultHistory || createMemoryHistory({
+        initialEntries: [initialPath]
+    });
 
     //Chama a funcao de callback do container para informa-lo que teve um routing e ele atualizar o path no BrowserHistory
     if(onNavigate) {
