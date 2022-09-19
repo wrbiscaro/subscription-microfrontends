@@ -1,10 +1,11 @@
 import React from 'react';
 //Componente para fazer o Router utilizando Browser History
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 //Componentes para fazer o CSS-in-JS e evitar conflitos de CSS
 import { StylesProvider, createGenerateClassName } from '@material-ui/core/styles';
 
 import MarketingApp from './components/MarketingApp';
+import AuthApp from './components/AuthApp';
 import Header from './components/Header';
 
 const generateClassName = createGenerateClassName({
@@ -14,12 +15,18 @@ const generateClassName = createGenerateClassName({
 });
 
 export default () => {
+    //O componente de Route faz o match pela primeira parte do path
+    //No caso de paths como /auth/sign, /auth/signup, /auth/qlqcoisa, o componente de auth é carregado
+    //No caso de paths como /, /pricing, /qlqcoisa, o componente de marketing é carregado
     return (
         <BrowserRouter>
             <StylesProvider generateClassName={generateClassName}>
                 <div>
                     <Header />
-                    <MarketingApp />
+                    <Switch>
+                        <Route path="/auth" component={AuthApp} />
+                        <Route path="/" component={MarketingApp} />
+                    </Switch>
                 </div>
             </StylesProvider>
         </BrowserRouter>

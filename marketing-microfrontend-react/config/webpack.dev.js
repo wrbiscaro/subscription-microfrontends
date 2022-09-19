@@ -6,6 +6,13 @@ const packageJson = require('../package.json');
 
 const devConfig = {
     mode: 'development',
+    output: {
+        //Devemos informar o publicPath para o webpack saber de onde carregar o main.js no remoteEntry
+        //Por padrao, o webpack faz o output do main.js no path "/"
+        //Caso não informado o publicPath, por padrao o webpack busca o main.js no path "/" relativo ao dominio do remoteEntry
+        //O comportamento padrao nao funciona quando a pagina tem nested path (/auth/signin, por exemplo), por isso devemos sempre informar o publicPath
+        publicPath: 'http://localhost:8081/'
+    },
     devServer: {
         port: 8081,
         historyApiFallback: {
