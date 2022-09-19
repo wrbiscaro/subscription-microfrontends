@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createMemoryHistory } from 'history';
+import { createMemoryHistory, createBrowserHistory } from 'history';
 import App from './App';
 
-const mount = (element, { onNavigate }) => {
-    //Cria um component de MemoryHistory e envia via prop ao App
-    const history = createMemoryHistory();
+const mount = (element, { onNavigate, defaultHistory }) => {
+    //Cria um component de MemoryHistory (prod) ou BrowserHistory (dev/isolado) e envia via prop ao App
+    //Apenas ambiente development envia o defaultHistory. Se nao enviar (prod), usa MemoryHistory
+    const history = defaultHistory || createMemoryHistory();
+
     //Chama a funcao de callback do container para informa-lo que teve um routing e ele atualizar o path no BrowserHistory
     if(onNavigate) {
         history.listen(onNavigate);
@@ -38,7 +40,7 @@ if(process.env.NODE_ENV === 'development') {
     //Assumimos que apenas o ambiente de development tem uma div com o id #_marketing-dev-root
     if(element) {
         //Provavelmente estamos rodando em ambiente de development (microfrontend isolado)
-        mount(element, {});
+        mount(element, { defaultHistory: createBrowserHistory() });
     }
 }
 
