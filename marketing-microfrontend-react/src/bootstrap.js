@@ -7,7 +7,9 @@ const mount = (element, { onNavigate }) => {
     //Cria um component de MemoryHistory e envia via prop ao App
     const history = createMemoryHistory();
     //Chama a funcao de callback do container para informa-lo que teve um routing e ele atualizar o path no BrowserHistory
-    history.listen(onNavigate);
+    if(onNavigate) {
+        history.listen(onNavigate);
+    }
 
     //Renderiza nosso component App em um elemento a ser recebido com o ReactDOM
     ReactDOM.render(<App history={history} />, element);
@@ -21,7 +23,7 @@ if(process.env.NODE_ENV === 'development') {
     //Assumimos que apenas o ambiente de development tem uma div com o id #_marketing-dev-root
     if(element) {
         //Provavelmente estamos rodando em ambiente de development (microfrontend isolado)
-        mount(element);
+        mount(element, {});
     }
 }
 
