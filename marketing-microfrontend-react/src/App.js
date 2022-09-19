@@ -14,6 +14,7 @@ const generateClassName = createGenerateClassName({
 });
 
 export default ({ history }) => {
+    //Atenção para a ordem dos componentes de Route e exact path, pois pode gerar bug
     return (
         <div>
             <StylesProvider generateClassName={generateClassName}>
