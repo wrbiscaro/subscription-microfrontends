@@ -17,7 +17,8 @@ const prodConfig = {
             remotes: {
                 //O primeiro "marketing" é usado no import no container
                 //O segundo "marketing" faz um match com o name no webpack.config do mfe/componentes expostos no localhost:8081/remoteEntry.js
-                marketing: `marketing@${domain}/marketing-microfrontend-react/latest/remoteEntry.js` //Diretorio do s3 onde ficam os artefatos do mfe de marketing
+                marketing: `marketing@${domain}/marketing-microfrontend-react/latest/remoteEntry.js`, //Diretorio do s3 onde ficam os artefatos do mfe de marketing
+                auth: `auth@${domain}/auth-microfrontend-react/latest/remoteEntry.js`
             },
             //shared: ['react', 'react-dom']
             //Compartilha todas as dependencias do package.json, para evitar duplicidade

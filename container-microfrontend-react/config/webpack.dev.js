@@ -24,7 +24,8 @@ const devConfig = {
             remotes: {
                 //O primeiro "marketing" é usado no import no container
                 //O segundo "marketing" faz um match com o name no webpack.config do mfe/componentes expostos no localhost:8081/remoteEntry.js
-                marketing: 'marketing@http://localhost:8081/remoteEntry.js'
+                marketing: 'marketing@http://localhost:8081/remoteEntry.js',
+                auth: 'auth@http://localhost:8082/remoteEntry.js'
             },
             //shared: ['react', 'react-dom']
             //Compartilha todas as dependencias do package.json, para evitar duplicidade
