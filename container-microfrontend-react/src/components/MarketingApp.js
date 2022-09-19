@@ -10,7 +10,8 @@ export default () => {
     const history = useHistory();
 
     useEffect(() => {
-        mount(ref.current, {
+        //Recebe
+        const { onParentNavigation } = mount(ref.current, {
             //Envia uma funcao de callback para que o mfe marketing informe quando fizer um router e ele atualizar o BrowserHistory com o path atual
             //Recebe um objeto do mfe de marketing e dentre seus atributos temos o pathname, que indica para qual path o mfe vai fazer o router
             //Fazemos um destructuring do objeto e renomeamos o atributo pathname para nextPathname
@@ -23,7 +24,10 @@ export default () => {
                     history.push(nextPathname);
                 }
             }
-        });
+        }, []); //useEffect() roda em qualquer mudança no componente, então enviamos o [] como segundo argumento pra ele executar apenas 1 vez (na renderizacao inicial)
+
+        //Informa o mfe que teve atualizacao no path usando a callback enviada por ele, para que ele possa atualizar o MemoryHistory
+        history.listen(onParentNavigation);
     });
 
     return <div ref={ref} />;

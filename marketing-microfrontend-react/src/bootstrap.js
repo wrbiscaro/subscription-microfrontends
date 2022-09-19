@@ -13,6 +13,21 @@ const mount = (element, { onNavigate }) => {
 
     //Renderiza nosso component App em um elemento a ser recebido com o ReactDOM
     ReactDOM.render(<App history={history} />, element);
+
+    //Envia um callback para o container enviar seu novo path em caso de navegação em links dele, assim o mfe pode atualizar seu MemoryHistory
+    //Recebe um objeto do container e dentre seus atributos temos o pathname, que indica para qual path o container vai fazer o router
+    //Fazemos um destructuring do objeto e renomeamos o atributo pathname para nextPathname
+    return {
+        onParentNavigation({ pathname: nextPathname }) {
+            const { pathname } = history.location;
+
+            //Verifica se o path é diferente e só atualiza nesse caso, para evitar loop infinito
+            if(pathname !== nextPathname) {
+                //Atualiza o MemoryHistory com o path que o container fez o router
+                history.push(nextPathname);
+            }
+        }
+    }
 };
 
 //Webpack seta o NODE_ENV com o que está no mode do webpack.config.js
