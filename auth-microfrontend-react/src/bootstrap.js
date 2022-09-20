@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { createMemoryHistory, createBrowserHistory } from 'history';
 import App from './App';
 
-const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
+const mount = (element, { onNavigate, defaultHistory, initialPath, onSignIn }) => {
     //Cria um component de MemoryHistory (prod) ou BrowserHistory (dev/isolado) e envia via prop ao App
     //Apenas ambiente development envia o defaultHistory. Se nao enviar (prod), usa MemoryHistory
     const history = defaultHistory || createMemoryHistory({
@@ -16,7 +16,8 @@ const mount = (element, { onNavigate, defaultHistory, initialPath }) => {
     }
 
     //Renderiza nosso component App em um elemento a ser recebido com o ReactDOM
-    ReactDOM.render(<App history={history} />, element);
+    //Envia a callback de onSignIn do container para os componentes de autenticação chamarem no onClick do botão de logar/cadastrar-se (sem lógica atualmente)
+    ReactDOM.render(<App history={history} onSignIn={onSignIn} />, element);
 
     //Envia um callback para o container enviar seu novo path em caso de navegação em links dele, assim o mfe pode atualizar seu MemoryHistory
     //Recebe um objeto do container e dentre seus atributos temos o pathname, que indica para qual path o container vai fazer o router

@@ -4,7 +4,7 @@ import { mount } from 'auth/AuthApp';
 import React, { useRef, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-export default () => {
+export default ({ onSignIn }) => {
     const ref = useRef(null);
     //Cria uma copia do objeto BrowserHistory
     const history = useHistory();
@@ -24,7 +24,8 @@ export default () => {
                     history.push(nextPathname);
                 }
             },
-            initialPath: history.location.pathname //Path inicial para o MemoryHistory
+            initialPath: history.location.pathname, //Path inicial para o MemoryHistory
+            onSignIn
         }, []); //useEffect() roda em qualquer mudança no componente, então enviamos o [] como segundo argumento pra ele executar apenas 1 vez (na renderizacao inicial)
 
         //Informa o mfe que teve atualizacao no path usando a callback enviada por ele, para que ele possa atualizar o MemoryHistory

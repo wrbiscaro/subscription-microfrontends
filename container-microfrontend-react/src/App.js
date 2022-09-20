@@ -1,5 +1,5 @@
 //lazy e Suspense são usados em conjunto para fazer o lazy loading
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 //Componente para fazer o Router utilizando Browser History
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 //Componentes para fazer o CSS-in-JS e evitar conflitos de CSS
@@ -19,6 +19,8 @@ const generateClassName = createGenerateClassName({
 });
 
 export default () => {
+    const [isSignedIn, setIsSignedIn] = useState(false);
+
     //O componente de Route faz o match pela primeira parte do path
     //No caso de paths como /auth/sign, /auth/signup, /auth/qlqcoisa, o componente de auth é carregado
     //No caso de paths como /, /pricing, /qlqcoisa, o componente de marketing é carregado
@@ -26,10 +28,12 @@ export default () => {
         <BrowserRouter>
             <StylesProvider generateClassName={generateClassName}>
                 <div>
-                    <Header />
+                    <Header onSignOut={() => setIsSignedIn(false)} isSignedIn={isSignedIn}/>
                     <Suspense fallback={<Progress />}>
                         <Switch>
-                            <Route path="/auth" component={AuthLazy} />
+                            <Route path="/auth">
+                                <AuthLazy onSignIn={() => setIsSignedIn(true)}/>
+                            </Route>
                             <Route path="/" component={MarketingLazy} />
                         </Switch>
                     </Suspense>
