@@ -1,4 +1,5 @@
 const { merge } = require('webpack-merge'); //Serve para mergear dois webpack configs file
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 const commonConfig = require('./webpack.common');
 const packageJson = require('../package.json');
@@ -10,29 +11,34 @@ const devConfig = {
         //Por padrao, o webpack faz o output do main.js no path "/"
         //Caso não informado o publicPath, por padrao o webpack busca o main.js no path "/" relativo ao dominio do remoteEntry
         //O comportamento padrao nao funciona quando a pagina tem nested path (/auth/signin, por exemplo), por isso devemos sempre informar o publicPath
-        publicPath: 'http://localhost:8080/'
+        publicPath: 'http://localhost:8083/'
     },
     devServer: {
-        port: 8080,
+        port: 8083,
         historyApiFallback: {
             index: '/index.html'
+        },
+        headers: {
+            'Access-Control-Allow-Origin': '*' //Permite o carregamento de fontes e outros
         }
     },
     plugins: [
         new ModuleFederationPlugin({
-            name: 'container', //Não necessario no container, mas adicionado por convencao
-            remotes: {
-                //O primeiro "marketing" é usado no import no container
-                //O segundo "marketing" faz um match com o name no webpack.config do mfe/componentes expostos no localhost:8081/remoteEntry.js
-                marketing: 'marketing@http://localhost:8081/remoteEntry.js',
-                auth: 'auth@http://localhost:8082/remoteEntry.js',
-                dashboard: 'dashboard@http://localhost:8083/remoteEntry.js'
+            //Name é a global variable que o container usa quando o script é carregado
+            //O container faz um match desse name com o que está configurado como remotes no webpack.config dele
+            name: 'dashboard', 
+            filename: 'remoteEntry.js',
+            exposes: {
+                './DashboardApp': './src/bootstrap' //Expoe o arquivo bootstrap com o nome 'DashboardApp', para ser importado nos componentes do container
             },
             //shared: ['react', 'react-dom']
             //Compartilha todas as dependencias do package.json, para evitar duplicidade
             //dependencies: dependencias usadas/carregadas no runtime do browser
             //dev-dependencies: dependencias utilizadas somente durante o build, então não precisamos compartilhar
             shared: packageJson.dependencies
+        }),
+        new HtmlWebpackPlugin({
+            template: './public/index.html'
         })
     ]
 };

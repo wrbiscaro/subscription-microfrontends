@@ -26,11 +26,11 @@ export default ({ onSignIn }) => {
             },
             initialPath: history.location.pathname, //Path inicial para o MemoryHistory
             onSignIn
-        }, []); //useEffect() roda em qualquer mudança no componente, então enviamos o [] como segundo argumento pra ele executar apenas 1 vez (na renderizacao inicial)
+        });
 
         //Informa o mfe que teve atualizacao no path usando a callback enviada por ele, para que ele possa atualizar o MemoryHistory
         history.listen(onParentNavigation);
-    });
+    }, []); //useEffect() roda em qualquer mudança no componente, então enviamos o [] como segundo argumento pra ele executar apenas 1 vez (na renderizacao inicial)
 
     return <div ref={ref} />;
 };
